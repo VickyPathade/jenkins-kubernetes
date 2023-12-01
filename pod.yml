@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,6 +20,7 @@ spec:
         image: vicky2580/javawebapp
         ports:
           - containerPort: 8080
+
 ---
 apiVersion: v1
 kind: Service
@@ -34,4 +34,29 @@ spec:
     - port: 80
       targetPort: 8080
       nodePort: 30785
-...
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: frontend-deploy
+  namespace: test
+subjects:
+- kind: User
+  name: frontend
+  namespace: test
+roleRef:
+  kind: Role
+  name: frontend-developer
+  apiGroup: rbac.authorization.k8s.io
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: test
+  name: frontend-developer
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["deployments", "replicasets", "pods"]
+  verbs: ["get", "list", "watch", "create", "patch"]
