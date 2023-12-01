@@ -21,14 +21,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'apt-get update'
-                    sh 'apt-get install -y docker.io'
                     sh 'docker build -t vicky2580/javawebapp .'
                 }
             }
         }
-
-      
 
         stage('Deploy to Kubernetes') {
             steps {
