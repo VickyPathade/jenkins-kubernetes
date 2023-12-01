@@ -26,8 +26,8 @@ terraform {
 }
 provider "aws" {
   region     = "us-east-2"
-  access_key = "AKIA5VDGASUB4PJFFEXP"
-  secret_key = "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"
+  access_key = "AKIA5VDGASUB2RISQ7E6"
+  secret_key = "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"
 }
 
 
@@ -35,3 +35,4 @@ resource "random_string" "suffix" {
   length  = 5
   special = false
 }
+
