@@ -4,9 +4,11 @@ variable "public_sn_count" {}
 variable "public_cidrs" {
   type = list(any)
 }
-variable "availability_zone" {
-  
+variable "availability_zones" {
+  type    = list(string)
+  default = ["us-east-2a", "us-east-2b"]
 }
+
 variable "instance_tenancy" {
 
 }
