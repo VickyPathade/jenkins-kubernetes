@@ -21,7 +21,7 @@ resource "aws_subnet" "public_cloud_subnet" {
   count                   = var.public_sn_count
   vpc_id                  = aws_vpc.cloud.id
   cidr_block              = var.public_cidrs[count.index]
-  availability_zone       = var.availability_zone
+  availability_zone = element(var.availability_zones, count.index)
   map_public_ip_on_launch = var.map_public_ip_on_launch
   tags = {
     Name = var.tags
@@ -46,3 +46,4 @@ resource "aws_route_table_association" "default" {
   subnet_id      = aws_subnet.public_cloud_subnet[count.index].id
   route_table_id = aws_default_route_table.internal_cloud_default.id
 }
+
