@@ -1,8 +1,39 @@
+# pod.yml
+
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: deployer-role
+rules:
+- apiGroups: [""]
+  resources: ["deployments", "services"]
+  verbs: ["apply", "get", "list", "watch", "delete"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: default
+  name: deployer-role-binding
+subjects:
+- kind: ServiceAccount
+  name: "jenkins"  # Service account used by Jenkins
+  namespace: default
+roleRef:
+  kind: Role
+  name: deployer-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: javawebappdeployment
+  namespace: default
 spec:
   replicas: 2
   strategy:
@@ -21,11 +52,14 @@ spec:
         image: vicky2580/javawebapp
         ports:
           - containerPort: 8080
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: javaweappsvc
+  namespace: default
 spec:
   type: NodePort
   selector:
@@ -34,4 +68,3 @@ spec:
     - port: 80
       targetPort: 8080
       nodePort: 30785
-...
