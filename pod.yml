@@ -1,24 +1,4 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: myaccount
-
 ---
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: myBinding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: frontend-developer
-subjects:
-- kind: ServiceAccount
-  name: myaccount
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -42,9 +22,7 @@ spec:
         image: vicky2580/javawebapp
         ports:
           - containerPort: 8080
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
