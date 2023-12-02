@@ -1,23 +1,22 @@
 pipeline {
     agent any
-
+    environment {
+        KUBECONFIG = "${HOME}/.kube/config"
+    }
     tools {
         maven "maven 3.9.5"
     }
-
     stages {
-        stage('Clone') {
+        stage('Hello') {
             steps {
                 git branch: 'main', url: 'https://github.com/VickyPathade/jenkins-kubernetes.git'
             }
         }
-
         stage('Maven Build') {
             steps {
                 sh "mvn clean package"
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -25,10 +24,9 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to Kubernetes') {
             steps {
-                script {
+               script {
                     sh 'kubectl apply -f pod.yml'
                 }
             }
