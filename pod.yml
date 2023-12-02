@@ -16,7 +16,6 @@ spec:
       labels:
         app: javawebapp
     spec:
-      serviceAccountName: myaccount  
       containers:
       - name: javawebappcontainer
         image: vicky2580/javawebapp
