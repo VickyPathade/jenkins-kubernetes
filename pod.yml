@@ -1,37 +1,27 @@
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: javawebappdeployment
+  name: javawebapppod
+  labels:
+    app: javawebapp #very imp
 spec:
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-  selector:
-    matchLabels:
-      app: javawebapp
-  template:
-    metadata:
-      name: javawebapppod
-      labels:
-        app: javawebapp
-    spec:
-      containers:
-      - name: javawebappcontainer
-        image: vicky2580/javawebapp
-        ports:
-          - containerPort: 8080
+  containers:
+  - name: javaweappcontainer
+    image: vicky2580/javawebapp
+    ports:
+      - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: javaweappsvc
+  name: javawebappsvc
 spec:
   type: NodePort
   selector:
-    app: javawebapp
+    app: javawebapp 
   ports:
     - port: 80
       targetPort: 8080
       nodePort: 30785
-...      
+...
